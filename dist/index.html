@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style type="text/css">
+        body {height: 200vh;}
+        .wrapper {display: grid;grid-template-columns: 25% 25% 25% 25%;}
+        .images img { max-width: 100%;}
+    </style>
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div id="shuffle">
+            <h1>Image mouse move</h1>
+            <img src="https://source.unsplash.com/collection/1758353/800x600/?sig=1">
+            <img src="https://source.unsplash.com/collection/1758353/800x600/?sig=2">
+            <img src="https://source.unsplash.com/collection/1758353/800x600/?sig=3">
+        </div>
+
+        <!-- <div class="shuffle1">
+            <h1>Image hover</h1>
+            <img src="https://source.unsplash.com/random/800x600">
+            <img src="https://source.unsplash.com/random/800x600">
+            <img src="https://source.unsplash.com/random/800x600">
+        </div>
+
+        <div class="shuffle2">
+            <h1>document mouse move</h1>
+            <div>
+                <img src="https://source.unsplash.com/random/800x600">
+                <img src="https://source.unsplash.com/random/800x600">
+                <img src="ihttps://source.unsplash.com/random/800x600">
+            </div>
+        </div>
+
+        <div class="shuffle3">
+            <h1>document scroll</h1>
+            <div>
+                <img src="https://source.unsplash.com/random/800x600">
+                <img src="https://source.unsplash.com/random/800x600">
+                <img src="https://source.unsplash.com/random/800x600">
+            </div>
+        </div> -->
+    </div>
+
+<script type="text/javascript" src="shuffleimages.js"></script>
+<script type="text/javascript">
+    new ShuffleImages({
+        target: "#shuffle",
+        type: "imageMouseMove",
+    });
+
+    // new ShuffleImages({
+    //     target: '.shuffle1',
+    //     type: "imageHover",
+    //     hoverTrigger: 500
+    // });
+
+    // new ShuffleImages({
+    //     target: '.shuffle2',
+    //     type: "documentMouseMove",
+    // });
+
+    // new ShuffleImages({
+    //     target: '.shuffle3',
+    //     type: "documentScroll",
+    // });
+</script>
+</body>
+
+
+</html>
