@@ -1,8 +1,10 @@
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-// const CopyPlugin = require('copy-webpack-plugin');
-
 const path = require('path');
 module.exports = {
+    devServer: {
+      contentBase: path.resolve(__dirname, 'dist'),
+      hot: true,
+      watchContentBase: true,
+    },
     entry: './src/index.js',
     output: {
         library: 'ShuffleImages',
@@ -20,22 +22,7 @@ module.exports = {
                 loader: "babel-loader"
             }
         },
-        {
-            test: /\.html$/,
-            use: [
-              {
-                loader: "html-loader",
-                options: { minimize: false }
-              }
-            ]
-          }
+        
       ]
     },
-    plugins: [
-        new HtmlWebPackPlugin({
-          template: "./src/index.html",
-          filename: "./index.html",
-          inject: false
-        }),
-    ]
 };
