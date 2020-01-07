@@ -7,73 +7,103 @@
     <title>Vanilla Shuffle Images</title>
     <style type="text/css">
         .wrapper {width: 800px; margin: 0 auto;}
-        .wrapper img { width: 100%;}
+        .wrapper img {width: 100%;}
+        button {
+            border: none;
+            background: dodgerblue;
+            padding: 12px 14px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            outline: none;
+        }
         h2 {margin: 30px 0 10px;}
         p {margin: 0 0 20px;}
     </style>
 </head>
-
 <body>
+    <div class="wrapper">
+        <h2>Image mouse move</h2>
+        <p>Image will be shuffled when moving mouse in target.</p>
+        <button onclick="addFunc(mouseMove)">ADD</button>
+        <button onclick="removeFunc(mouseMove)">REMOVE</button>
+        <div id="shuffle">
+            <div>
+                <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=1" />
+            </div>
+            <div>
+                <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=2" />
+            </div>
+            <div>
+                <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=3" />
+            </div>
+        </div>
 
-<div class="wrapper">
-    <h2>Image mouse move</h2>
-    <p>Image will be shuffled when moving mouse in target.</p>
-    <div id="shuffle">
-        <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=1" />
-        <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=2" />
-        <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=3" />
+        <h2>Image hover</h2>
+        <p>Image will be shuffled when hover over target.</p>
+        <button onclick="addFunc(mouseHover)">ADD</button>
+        <button onclick="removeFunc(mouseHover)">REMOVE</button>
+        <div class="shuffle1">
+            <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=1" />
+            <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=2" />
+            <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=3" />
+        </div>
+
+        <h2>Document scroll</h2>
+        <p>Image will be shuffled when scroll page.</p>
+        <button onclick="addFunc(documentScroll)">ADD</button>
+        <button onclick="removeFunc(documentScroll)">REMOVE</button>
+        <div class="shuffle3">
+            <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=1" />
+            <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=2" />
+            <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=3" />
+        </div>
+
+        <h2>Document mouse move</h2>
+        <p>Image will be shuffled when moving mouse in page.</p>
+        <button onclick="addFunc(documentMousemove)">ADD</button>
+        <button onclick="removeFunc(documentMousemove)">REMOVE</button>
+        <div class="shuffle2">
+            <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=1" />
+            <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=2" />
+            <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=3" />
+        </div>
     </div>
-    
-    <h2>Image hover</h2>
-    <p>Image will be shuffled when hover over target.</p>
-    <div class="shuffle1">
-        <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=1" />
-        <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=2" />
-        <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=3" />
-    </div>
 
-    <h2>Document scroll</h2>
-    <p>Image will be shuffled when scroll page.</p>
-    <div class="shuffle3">
-        <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=1" />
-        <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=2" />
-        <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=3" />
-    </div>
+    <script type="text/javascript" src="shuffleimages.js"></script>
+    <script type="text/javascript">
+        const mouseMove = new ShuffleImages({
+            target: "#shuffle",
+            type: "imageMouseMove",
+            mouseMoveTrigger: 100
+        });
 
-    <h2>Document mouse move</h2>
-    <p>Image will be shuffled when moving mouse in page.</p>
-    <div class="shuffle2">
-        <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=1" />
-        <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=2" />
-        <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=3" />
-    </div>
-</div>
+        const mouseHover = new ShuffleImages({
+            target: '.shuffle1',
+            type: "imageHover",
+            hoverTrigger: 300
+        });
 
-<script type="text/javascript" src="shuffleimages.js"></script>
-<script type="text/javascript">
-    const aa = new ShuffleImages({
-        target: "#shuffle",
-        type: "imageMouseMove",
-    });
+        const documentScroll = new ShuffleImages({
+            target: '.shuffle3',
+            type: "documentScroll",
+            scrollTrigger: 100
+        });
 
-    aa.init();
-    // aa.destroy();
+        const documentMousemove = new ShuffleImages({
+            target: '.shuffle2',
+            type: "documentMouseMove",
+            mouseMoveTrigger: 100
+        });
 
-    new ShuffleImages({
-        target: '.shuffle1',
-        type: "imageHover",
-        hoverTrigger: 300
-    });
+        function addFunc(si) {
+            si.init();
+        }
 
-    new ShuffleImages({
-        target: '.shuffle3',
-        type: "documentScroll",
-    });
-
-    new ShuffleImages({
-        target: '.shuffle2',
-        type: "documentMouseMove",
-    });
-</script>
+        function removeFunc(si) {
+            si.destroy();
+        }
+    </script>
 </body>
 </html>
