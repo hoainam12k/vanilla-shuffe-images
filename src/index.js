@@ -12,15 +12,15 @@ export default class ShuffleImages {
      */
     this.shuffleImageElements = $(document, this.options.target, "NodeList");
     /**
-     * @param {Boolean} isInit xét điều khiện init hoặc là destroy
+     * @param {Boolean} isInit
      */
     this.isInit = true;
     /**
-     * @param {number} distance Biến điều kiện để so sánh khi di chuyển chuột
+     * @param {number} distance
      */
     this.distance = null;
     /**
-     * @param {number} triggerTime Biến lưu trữ setInterval 
+     * @param {number} triggerTime
      */
     this.triggerTime = null;
     /**
@@ -29,7 +29,7 @@ export default class ShuffleImages {
     this.node = null;
 
     /**
-     * @param {Object} defaults options mặc định
+     * @param {Object} defaults Default value when init
      */
     this.defaults = {
       type: "imageMouseMove",
@@ -39,14 +39,13 @@ export default class ShuffleImages {
     };
 
     /**
-     * @param {Object} settings options đầu vào
+     * @param {Object} settings
      */
     this.settings = {
       ...this.defaults,
       ...this.options
     };
 
-    //* thay đổi con trỏ this của hàm
     this.imageMouseMoveHandler = this.imageMouseMoveHandler.bind(this);
     this.imageMouseOverHandler = this.imageMouseOverHandler.bind(this);
     this.imageMouseOverHandler = this.imageMouseOverHandler.bind(this);
@@ -55,7 +54,7 @@ export default class ShuffleImages {
   }
 
   /**
-   * Hàm khởi tạo shuffle
+   * Initial shuffle images
    */
   init() {
     if (this.isInit) {
@@ -70,7 +69,7 @@ export default class ShuffleImages {
   }
 
   /**
-   * Hàm huỷ shuffle
+   * Destroy shuffle images
    */
   destroy() {
     if (!this.isInit) {
@@ -85,7 +84,7 @@ export default class ShuffleImages {
   }
 
   /**
-   * Hàm xử lý shuffle
+   * Process shuffle
    * @param {Node} elementNode 
    */
   shuffleHandler(elementNode) {
@@ -120,7 +119,7 @@ export default class ShuffleImages {
   }
 
   /**
-   * Hàm huỷ shuffle và các sự kiện khác
+   * Destroy and remove events
    * @param {Node} elementNode 
    */
   destroyShuffleHandler(elementNode) {
@@ -153,7 +152,7 @@ export default class ShuffleImages {
   }
 
   /**
-   * Hàm xử lý hiển thị image khi di chuyển chuột vào element or document có điều kiện khoảng cách 
+   * Shuffle images when moving mouse (with distance)
    */
   imageMouseMoveHandler() {
     let active = $(this.node, "[data-active]");
@@ -168,7 +167,7 @@ export default class ShuffleImages {
   }
 
   /**
-   * Hàm xử lý hiển thị image khi di chuyển chuột vào element có điều kiện thời gian
+   * Shuffle images when hovering
    */
   imageMouseOverHandler() {
     this.triggerTime = setInterval(() => {
@@ -178,14 +177,14 @@ export default class ShuffleImages {
   }
 
   /**
-   * Hàm xử lý hiển thị image khi di chuyển ra ngoài element
+   * Remove time interval when hover out element
    */
   imageMouseOutHandler() {
     clearInterval(this.triggerTime);
   }
 
   /**
-   * Hàm xử lý hiển thị image khi scroll document
+   * Shuffle images when scrolling
    */
   documentScrollHandler() {
     let math = window.pageYOffset;

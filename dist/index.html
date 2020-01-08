@@ -11,12 +11,13 @@
         button {
             border: none;
             background: dodgerblue;
-            padding: 12px 14px;
+            padding: 10px 15px;
             margin-bottom: 5px;
             border-radius: 5px;
             color: white;
             cursor: pointer;
             outline: none;
+            text-transform: uppercase;
         }
         h2 {margin: 30px 0 10px;}
         p {margin: 0 0 20px;}
@@ -26,8 +27,8 @@
     <div class="wrapper">
         <h2>Image mouse move</h2>
         <p>Image will be shuffled when moving mouse in target.</p>
-        <button onclick="addFunc(mouseMove)">ADD</button>
-        <button onclick="removeFunc(mouseMove)">REMOVE</button>
+        <button onclick="addFunc(mouseMove)">Start shuffle</button>
+        <button onclick="removeFunc(mouseMove)">Destroy</button>
         <div id="shuffle">
             <div>
                 <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=1" />
@@ -42,8 +43,8 @@
 
         <h2>Image hover</h2>
         <p>Image will be shuffled when hover over target.</p>
-        <button onclick="addFunc(mouseHover)">ADD</button>
-        <button onclick="removeFunc(mouseHover)">REMOVE</button>
+        <button onclick="addFunc(mouseHover)">Start shuffle</button>
+        <button onclick="removeFunc(mouseHover)">Destroy</button>
         <div class="shuffle1">
             <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=1" />
             <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=2" />
@@ -52,8 +53,8 @@
 
         <h2>Document scroll</h2>
         <p>Image will be shuffled when scroll page.</p>
-        <button onclick="addFunc(documentScroll)">ADD</button>
-        <button onclick="removeFunc(documentScroll)">REMOVE</button>
+        <button onclick="addFunc(documentScroll)">Start shuffle</button>
+        <button onclick="removeFunc(documentScroll)">Destroy</button>
         <div class="shuffle3">
             <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=1" />
             <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=2" />
@@ -62,8 +63,8 @@
 
         <h2>Document mouse move</h2>
         <p>Image will be shuffled when moving mouse in page.</p>
-        <button onclick="addFunc(documentMousemove)">ADD</button>
-        <button onclick="removeFunc(documentMousemove)">REMOVE</button>
+        <button onclick="addFunc(documentMousemove)">Start shuffle</button>
+        <button onclick="removeFunc(documentMousemove)">Destroy</button>
         <div class="shuffle2">
             <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=1" />
             <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=2" />
@@ -76,8 +77,10 @@
         const mouseMove = new ShuffleImages({
             target: "#shuffle",
             type: "imageMouseMove",
-            mouseMoveTrigger: 100
+            mouseMoveTrigger: 30
         });
+
+        mouseMove.init();
 
         const mouseHover = new ShuffleImages({
             target: '.shuffle1',
@@ -85,17 +88,23 @@
             hoverTrigger: 300
         });
 
+        mouseHover.init();
+
         const documentScroll = new ShuffleImages({
             target: '.shuffle3',
             type: "documentScroll",
             scrollTrigger: 100
         });
 
+        documentScroll.init();
+
         const documentMousemove = new ShuffleImages({
             target: '.shuffle2',
             type: "documentMouseMove",
-            mouseMoveTrigger: 100
+            mouseMoveTrigger: 60
         });
+
+        documentMousemove.init();
 
         function addFunc(si) {
             si.init();

@@ -1,5 +1,5 @@
 /**
- * Fake $ element
+ * Get Dom element
  * @param {Element} scope Tên element muốn query
  * @param {String} selector Tên class, id, tagName
  * @param {String} typeQuery Chọn kiểu muốn query Node hoặc NodeList
@@ -14,7 +14,7 @@ const $ = (scope, selector, typeQuery = "Node") => {
 };
 
 /**
- * Thêm sự kiện cho một element
+ * Add event for element
  * @param {Element} target Element muốn thêm sự kiện
  * @param {String} type Loại sự kiện
  * @param {Function} callback callback funtion
@@ -24,7 +24,7 @@ const $on = (target, type, callback) => {
 };
 
 /**
- * Xoá sự kiện của một element
+ * Remove event for element
  * @param {Element} target Element muốn xoá sự kiện
  * @param {String} type Loại sự kiện
  * @param {Function} callback callback funtion
@@ -34,17 +34,17 @@ const $off = (target, type, callback) => {
 };
 
 /**
-   * Hiển thị image
-   * @param {Element} activeElement Image đang được hiển thị
-   * @param {Element} imageFirst Thẻ image đầu tiên trong 1 Nodelist
+   * Hide and show next image
+   * @param {Element} activeElement Image is showing and will be hided
+   * @param {Element} firstImage First image in HTML Elements
    */
-const displayImage = (activeElement, imageFirst) => {
+const displayImage = (activeElement, firstImage) => {
   if (activeElement.nextElementSibling) {
     activeElement.nextElementSibling.style.display = "block";
     activeElement.nextElementSibling.setAttribute("data-active", "active");
   } else {
-    imageFirst.style.display = "block";
-    imageFirst.setAttribute("data-active", "active");
+    firstImage.style.display = "block";
+    firstImage.setAttribute("data-active", "active");
   }
   activeElement.style.display = "none";
   activeElement.removeAttribute("data-active");
