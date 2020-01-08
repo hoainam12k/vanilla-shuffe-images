@@ -2,6 +2,8 @@ Vanilla Shuffle Images let you display and shuffle multiple images by moving cur
 
 Similar to [Shuffle Images by Pete R](https://github.com/peachananr/shuffle-images) but Vanilla JS.
 
+[View demo](https://hoainam12k.github.io/vanilla-shuffe-images/dist/).
+
 ## Basic Usage
 
 ### HTML Markup
