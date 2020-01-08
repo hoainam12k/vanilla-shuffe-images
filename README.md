@@ -1,10 +1,11 @@
-Similar to [Shuffle Images by Pete R](https://github.com/peachananr/shuffle-images) but Vanilla JS
+Vanilla Shuffle Images let you display and shuffle multiple images by moving cursor around or several other ways to trigger. This plugin is perfect for when you want to save space while allowing users to take a peak at what other images are related to the one displayed. It can also be used to create an interactive animation on multiple static images at once.
 
-Shuffle Images let you display and shuffle multiple images by moving cursor around or several other ways to trigger. This plugin is perfect for when you want to save space while allowing users to take a peak at what other images are related to the one displayed. It can also be used to create an interactive animation on multiple static images at once.
+Similar to [Shuffle Images by Pete R](https://github.com/peachananr/shuffle-images) but Vanilla JS.
 
 ## Basic Usage
 
-HTML Markup
+### HTML Markup
+
 ```html
 <div class="shuffle-me">
     <img src="images/1.jpg">
@@ -16,10 +17,24 @@ HTML Markup
 
 Make sure all the images you want to shuffle are wrapped within a container where we will call the function on.
 
-Run js:
+### Vanilla js
+
 ```js
 const shuffle = new ShuffleImages({
    target: ".shuffle-me",
+});
+shuffle.init();
+```
+
+### Node js
+
+Install: `npm i vanilla-shuffe-images`
+
+```js
+import ShuffleImages from 'vanilla-shuffe-images';
+
+const shuffle = new ShuffleImages({
+    target: ".shuffle-me",
 });
 shuffle.init();
 ```
