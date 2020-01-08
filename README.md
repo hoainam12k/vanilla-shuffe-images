@@ -10,9 +10,9 @@ Similar to [Shuffle Images by Pete R](https://github.com/peachananr/shuffle-imag
 
 ```html
 <div class="shuffle-me">
-    <img src="images/1.jpg">
-    <img src="images/2.jpg">
-    <img src="images/3.jpg">
+    <img src="images/1.jpg" />
+    <img src="images/2.jpg" />
+    <img src="images/3.jpg" />
     ..
 </div>
   ```
