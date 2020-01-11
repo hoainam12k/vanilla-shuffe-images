@@ -1,118 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Vanilla Shuffle Images</title>
     <style type="text/css">
-        .wrapper {width: 800px; margin: 0 auto;}
-        .wrapper img {width: 100%;}
-        button {
-            border: none;
-            background: dodgerblue;
-            padding: 10px 15px;
-            margin-bottom: 5px;
-            border-radius: 5px;
-            color: white;
-            cursor: pointer;
-            outline: none;
-            text-transform: uppercase;
-        }
-        h2 {margin: 30px 0 10px;}
-        p {margin: 0 0 20px;}
+      .wrapper {
+        width: 800px;
+        margin: 0 auto;
+      }
+      .wrapper img {
+        width: 100%;
+        transition: all 450ms ease-in-out;
+      }
+      button {
+        border: none;
+        background: dodgerblue;
+        padding: 10px 15px;
+        margin-bottom: 5px;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        outline: none;
+        text-transform: uppercase;
+      }
+      h2 {
+        margin: 30px 0 10px;
+      }
+      p {
+        margin: 0 0 20px;
+      }
+      #shuffle div {
+        transition: all 450ms ease-in-out;
+        transform: rotate(-360deg);
+      }
+      #shuffle .active {
+          transform: rotate(360deg);
+      }
+
+      .shuffle1 img {
+        transform: scale(1.1);
+      }
+      .shuffle1 .active {
+          transform: scale(1);
+      }
+
+      .shuffle2 img {
+        transform: translateY(-100%);
+      }
+      .shuffle2 .active {
+          transform: translateY(0);
+      }
+
+      .shuffle3 img {
+        transform: scale(1.1);
+      }
+      
+      .shuffle3 .active {
+          transform: scale(1);
+      }
+
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="wrapper">
-        <h2>Image mouse move</h2>
-        <p>Image will be shuffled when moving mouse in target.</p>
-        <button onclick="addFunc(mouseMove)">Start shuffle</button>
-        <button onclick="removeFunc(mouseMove)">Destroy</button>
-        <div id="shuffle">
-            <div>
-                <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=1" />
-            </div>
-            <div>
-                <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=2" />
-            </div>
-            <div>
-                <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=3" />
-            </div>
+      <h2>Image mouse move</h2>
+      <p>Image will be shuffled when moving mouse in target.</p>
+      <button onclick="addFunc(mouseMove)">Start shuffle</button>
+      <button onclick="removeFunc(mouseMove)">Destroy</button>
+      <div id="shuffle">
+        <div class="active">
+          <img 
+            src="https://source.unsplash.com/collection/1758353/800x350/?sig=1"
+          />
         </div>
+        <div>
+          <img
+            src="https://source.unsplash.com/collection/1758353/800x350/?sig=2"
+          />
+        </div>
+        <div>
+          <img
+            src="https://source.unsplash.com/collection/1758353/800x350/?sig=3"
+          />
+        </div>
+      </div>
 
-        <h2>Image hover</h2>
-        <p>Image will be shuffled when hover over target.</p>
-        <button onclick="addFunc(mouseHover)">Start shuffle</button>
-        <button onclick="removeFunc(mouseHover)">Destroy</button>
-        <div class="shuffle1">
-            <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=1" />
-            <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=2" />
-            <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=3" />
-        </div>
+      <h2>Image hover</h2>
+      <p>Image will be shuffled when hover over target.</p>
+      <button onclick="addFunc(mouseHover)">Start shuffle</button>
+      <button onclick="removeFunc(mouseHover)">Destroy</button>
+      <div class="shuffle1">
+        <img class="active"
+          src="https://source.unsplash.com/collection/1758353/800x350/?sig=1"
+        />
+        <img
+          src="https://source.unsplash.com/collection/1758353/800x350/?sig=2"
+        />
+        <img
+          src="https://source.unsplash.com/collection/1758353/800x350/?sig=3"
+        />
+      </div>
 
-        <h2>Document scroll</h2>
-        <p>Image will be shuffled when scroll page.</p>
-        <button onclick="addFunc(documentScroll)">Start shuffle</button>
-        <button onclick="removeFunc(documentScroll)">Destroy</button>
-        <div class="shuffle3">
-            <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=1" />
-            <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=2" />
-            <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=3" />
-        </div>
+      <h2>Document scroll</h2>
+      <p>Image will be shuffled when scroll page.</p>
+      <button onclick="addFunc(documentScroll)">Start shuffle</button>
+      <button onclick="removeFunc(documentScroll)">Destroy</button>
+      <div class="shuffle3">
+        <img class="active"
+          src="https://source.unsplash.com/collection/1758353/800x350/?sig=1"
+        />
+        <img
+          src="https://source.unsplash.com/collection/1758353/800x350/?sig=2"
+        />
+        <img
+          src="https://source.unsplash.com/collection/1758353/800x350/?sig=3"
+        />
+      </div>
 
-        <h2>Document mouse move</h2>
-        <p>Image will be shuffled when moving mouse in page.</p>
-        <button onclick="addFunc(documentMousemove)">Start shuffle</button>
-        <button onclick="removeFunc(documentMousemove)">Destroy</button>
-        <div class="shuffle2">
-            <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=1" />
-            <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=2" />
-            <img src="https://source.unsplash.com/collection/1758353/800x350/?sig=3" />
-        </div>
+      <h2>Document mouse move</h2>
+      <p>Image will be shuffled when moving mouse in page.</p>
+      <button onclick="addFunc(documentMousemove)">Start shuffle</button>
+      <button onclick="removeFunc(documentMousemove)">Destroy</button>
+      <div class="shuffle2">
+        <img class="active"
+          src="https://source.unsplash.com/collection/1758353/800x350/?sig=1"
+        />
+        <img
+          src="https://source.unsplash.com/collection/1758353/800x350/?sig=2"
+        />
+        <img
+          src="https://source.unsplash.com/collection/1758353/800x350/?sig=3"
+        />
+      </div>
     </div>
 
     <script type="text/javascript" src="shuffleimages.js"></script>
     <script type="text/javascript">
-        const mouseMove = new ShuffleImages({
-            target: "#shuffle",
-            type: "imageMouseMove",
-            mouseMoveTrigger: 30
-        });
+      const mouseMove = new ShuffleImages({
+        target: "#shuffle",
+        type: "imageMouseMove",
+        mouseMoveTrigger: 100,
+      });
 
-        mouseMove.init();
+      mouseMove.init();
 
-        const mouseHover = new ShuffleImages({
-            target: '.shuffle1',
-            type: "imageHover",
-            hoverTrigger: 300
-        });
+      const mouseHover = new ShuffleImages({
+        target: ".shuffle1",
+        type: "imageHover",
+        hoverTrigger: 1200
+      });
 
-        mouseHover.init();
+      mouseHover.init();
 
-        const documentScroll = new ShuffleImages({
-            target: '.shuffle3',
-            type: "documentScroll",
-            scrollTrigger: 100
-        });
+      const documentScroll = new ShuffleImages({
+        target: ".shuffle3",
+        type: "documentScroll",
+        scrollTrigger: 100
+      });
 
-        documentScroll.init();
+      documentScroll.init();
 
-        const documentMousemove = new ShuffleImages({
-            target: '.shuffle2',
-            type: "documentMouseMove",
-            mouseMoveTrigger: 60
-        });
+      const documentMousemove = new ShuffleImages({
+        target: ".shuffle2",
+        type: "documentMouseMove",
+        mouseMoveTrigger: 120
+      });
 
-        documentMousemove.init();
+      documentMousemove.init();
 
-        function addFunc(si) {
-            si.init();
-        }
+      function addFunc(si) {
+        si.init();
+      }
 
-        function removeFunc(si) {
-            si.destroy();
-        }
+      function removeFunc(si) {
+        si.destroy();
+      }
     </script>
-</body>
+  </body>
 </html>

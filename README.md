@@ -6,16 +6,36 @@ Similar to [Shuffle Images by Pete R](https://github.com/peachananr/shuffle-imag
 
 ## Basic Usage
 
-### HTML Markup
+### HTML Markup (Default)
 
 ```html
-<div class="shuffle-me">
-    <img src="images/1.jpg" />
-    <img src="images/2.jpg" />
-    <img src="images/3.jpg" />
-    ..
-</div>
-  ```
+  // Set image element
+  <div class="shuffle-me">
+      <img src="images/1.jpg" class="active"/>
+      <img src="images/2.jpg" />
+      <img src="images/3.jpg" />
+      ..
+  </div>
+```
+```html
+  // Set background-image for div element
+  <div class="shuffle-me">
+      <div class="active"></div>
+      <div></div>
+      <div></div>
+      ..
+  </div>
+```
+### CSS (Custom)
+```css
+  .shuffle-me div {
+      transition: all 450ms ease-in-out;
+      transform: rotate(-360deg);
+    }
+  .shuffle-me .active {
+      transform: rotate(360deg);
+  }
+```
 
 Make sure all the images you want to shuffle are wrapped within a container where we will call the function on.
 
@@ -43,10 +63,11 @@ shuffle.init();
 
 ## Options
 
-1. type: `imageMouseMove`, `imageHover`, `documentMouseMove`, `documentScroll`
-2. mouseMoveTrigger:  50 // Interger, default 50
-3. hoverTrigger:  100 // Interger, default 100
-4. scrollTrigger:  100 // Interger, default 100
+1. type: `imageMouseMove`, `imageHover`, `documentMouseMove`, `documentScroll` 
+// String, default `imageMouseMove`
+2. mouseMoveTrigger:  50 // Interger, default `50`
+3. hoverTrigger:  200 // Interger, default `100`
+4. scrollTrigger:  100 // Interger, default `100`
 
 ## For developer
 

@@ -8,7 +8,7 @@ export default class ShuffleImages {
   constructor(options) {
     this.options = options;
     /**
-     * @param {NodeList} shuffleImageElements Get NodeList 
+     * @param {NodeList} shuffleImageElements Get NodeList
      */
     this.shuffleImageElements = $(document, this.options.target, "NodeList");
     /**
@@ -24,7 +24,7 @@ export default class ShuffleImages {
      */
     this.triggerTime = null;
     /**
-     * @param {Node} triggerTime Node Element
+     * @param {Node} node Node Element
      */
     this.node = null;
 
@@ -33,8 +33,8 @@ export default class ShuffleImages {
      */
     this.defaults = {
       type: "imageMouseMove",
-      mouseMoveTrigger: 200,
-      hoverTrigger: 2000,
+      mouseMoveTrigger: 50,
+      hoverTrigger: 200,
       scrollTrigger: 100
     };
 
@@ -85,20 +85,34 @@ export default class ShuffleImages {
 
   /**
    * Process shuffle
-   * @param {Node} elementNode 
+   * @param {Node} elementNode
    */
   shuffleHandler(elementNode) {
     const imgAllElement = $(elementNode,elementNode.firstElementChild.localName,"NodeList");
     this.node = elementNode;
 
+    // init images
+    elementNode.style.position = "relative";
+    elementNode.style.minHeight = "1px";
+    elementNode.style.overflow = "hidden";
     imgAllElement.forEach((imgEl, i) => {
-      if (i !== 0) {
-        imgEl.style.display = "none";
+      imgEl.style.top = "0";
+      imgEl.style.right = "0";
+      imgEl.style.bottom = "0";
+      imgEl.style.left = "0";
+
+      if (imgEl.className.includes("active")) {
+        imgEl.style.visibility = "visible";
+        imgEl.style.opacity = "1";
+        imgEl.style.position = "unset";
       } else {
-        imgEl.setAttribute("data-active", "active");
+        imgEl.style.visibility = "hidden";
+        imgEl.style.position = "absolute";
+        imgEl.style.opacity = "0";
       }
     });
 
+    // select shuffle
     switch (this.settings.type) {
       case "imageMouseMove":
         $on(elementNode, "mousemove", this.imageMouseMoveHandler);
@@ -120,18 +134,20 @@ export default class ShuffleImages {
 
   /**
    * Destroy and remove events
-   * @param {Node} elementNode 
+   * @param {Node} elementNode
    */
   destroyShuffleHandler(elementNode) {
     const imgAllElement = $(elementNode,elementNode.firstElementChild.localName,"NodeList");
 
+    // destroy init image
+    if (elementNode.hasAttribute("style")) elementNode.removeAttribute("style");
     imgAllElement.forEach((imgEl, i) => {
-      if (imgEl.hasAttribute("data-active") || imgEl.hasAttribute("style")) {
-        imgEl.removeAttribute("data-active");
+      if (imgEl.className.includes("active") || imgEl.hasAttribute("style")) {
         imgEl.removeAttribute("style");
       }
     });
 
+    //select type distroy
     switch (this.settings.type) {
       case "imageMouseMove":
         $off(elementNode, "mousemove", this.imageMouseMoveHandler);
@@ -155,7 +171,7 @@ export default class ShuffleImages {
    * Shuffle images when moving mouse (with distance)
    */
   imageMouseMoveHandler() {
-    let active = $(this.node, "[data-active]");
+    let active = $(this.node, ".active");
     let math = Math.round(
       Math.sqrt(Math.pow(event.clientY, 2) + Math.pow(event.clientX, 2))
     );
@@ -171,7 +187,7 @@ export default class ShuffleImages {
    */
   imageMouseOverHandler() {
     this.triggerTime = setInterval(() => {
-      let active = $(this.node, "[data-active]");
+      let active = $(this.node, ".active");
       displayImage(active, this.node.firstElementChild);
     }, this.settings.hoverTrigger);
   }
@@ -188,7 +204,7 @@ export default class ShuffleImages {
    */
   documentScrollHandler() {
     let math = window.pageYOffset;
-    let active = $(this.node, "[data-active]");
+    let active = $(this.node, ".active");
 
     if (Math.abs(math - this.distance) > this.settings.scrollTrigger) {
       displayImage(active, this.node.firstElementChild);

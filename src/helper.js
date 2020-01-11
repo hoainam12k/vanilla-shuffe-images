@@ -3,14 +3,14 @@
  * @param {Element} scope Tên element muốn query
  * @param {String} selector Tên class, id, tagName
  * @param {String} typeQuery Chọn kiểu muốn query Node hoặc NodeList
- * @return {NodeList} type query là NodeList 
- * @return {Node} type query là Node 
+ * @return {NodeList} type query là NodeList
+ * @return {Node} type query là Node
  */
 const $ = (scope, selector, typeQuery = "Node") => {
-    if (typeQuery === "NodeList") {
-        return scope.querySelectorAll(selector);
-    }
-    return scope.querySelector(selector);
+  if (typeQuery === "NodeList") {
+    return scope.querySelectorAll(selector);
+  }
+  return scope.querySelector(selector);
 };
 
 /**
@@ -20,7 +20,7 @@ const $ = (scope, selector, typeQuery = "Node") => {
  * @param {Function} callback callback funtion
  */
 const $on = (target, type, callback) => {
-    target.addEventListener(type, callback);
+  target.addEventListener(type, callback);
 };
 
 /**
@@ -34,20 +34,26 @@ const $off = (target, type, callback) => {
 };
 
 /**
-   * Hide and show next image
-   * @param {Element} activeElement Image is showing and will be hided
-   * @param {Element} firstImage First image in HTML Elements
-   */
+ * Hide and show next image
+ * @param {Element} activeElement Image is showing and will be hided
+ * @param {Element} firstImage First image in HTML Elements
+ */
 const displayImage = (activeElement, firstImage) => {
   if (activeElement.nextElementSibling) {
-    activeElement.nextElementSibling.style.display = "block";
-    activeElement.nextElementSibling.setAttribute("data-active", "active");
+    activeElement.nextElementSibling.style.visibility = "visible";
+    activeElement.nextElementSibling.style.opacity = "1";
+    activeElement.nextElementSibling.style.position = "unset";
+    activeElement.nextElementSibling.classList.add("active");
   } else {
-    firstImage.style.display = "block";
-    firstImage.setAttribute("data-active", "active");
+    firstImage.style.visibility = "visible";
+    firstImage.style.opacity = "1";
+    firstImage.style.position = "unset";
+    firstImage.classList.add("active");
   }
-  activeElement.style.display = "none";
-  activeElement.removeAttribute("data-active");
+  activeElement.style.visibility = "hidden";
+  activeElement.style.opacity = "0";
+  activeElement.style.position = "absolute";
+  activeElement.classList.remove("active");
 };
 
 export { $, $on, $off, displayImage };
