@@ -9,32 +9,12 @@ Similar to [Shuffle Images by Pete R](https://github.com/peachananr/shuffle-imag
 ### HTML Markup (Default)
 
 ```html
-  // Set image element
   <div class="shuffle-me">
       <img src="images/1.jpg" class="active"/>
       <img src="images/2.jpg" />
       <img src="images/3.jpg" />
       ..
   </div>
-```
-```html
-  // Set background-image for div element
-  <div class="shuffle-me">
-      <div class="active"></div>
-      <div></div>
-      <div></div>
-      ..
-  </div>
-```
-### CSS (Custom)
-```css
-  .shuffle-me div {
-      transition: all 450ms ease-in-out;
-      transform: rotate(-360deg);
-    }
-  .shuffle-me .active {
-      transform: rotate(360deg);
-  }
 ```
 
 Make sure all the images you want to shuffle are wrapped within a container where we will call the function on.
