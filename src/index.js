@@ -92,6 +92,7 @@ export default class ShuffleImages {
     this.node = elementNode;
 
     // init images
+    imgAllElement[0].classList.add('active');
     elementNode.style.position = "relative";
     elementNode.style.minHeight = "1px";
     elementNode.style.overflow = "hidden";
@@ -101,7 +102,7 @@ export default class ShuffleImages {
       imgEl.style.bottom = "0";
       imgEl.style.left = "0";
 
-      if (imgEl.className.includes("active")) {
+      if (imgEl.className === "active") {
         imgEl.style.visibility = "visible";
         imgEl.style.opacity = "1";
         imgEl.style.position = "unset";
@@ -144,6 +145,7 @@ export default class ShuffleImages {
     imgAllElement.forEach((imgEl, i) => {
       if (imgEl.className.includes("active") || imgEl.hasAttribute("style")) {
         imgEl.removeAttribute("style");
+        imgEl.classList.remove("active");
       }
     });
 
