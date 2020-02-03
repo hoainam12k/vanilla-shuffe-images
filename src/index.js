@@ -45,6 +45,12 @@ export default class ShuffleImages {
       ...this.defaults,
       ...this.options
     };
+
+    /** Function name to init and destroy */
+    this.funcImageMouseMove = null;
+    this.funcImageMouseOver = null;
+    this.funcImageMouseOut = null;
+    this.funcDocumentScroll = null;
   }
 
   /**
@@ -108,20 +114,25 @@ export default class ShuffleImages {
       }
     });
 
+    this.funcImageMouseMove = this.imageMouseMoveHandler.bind(this, this.node);
+    this.funcImageMouseOver = this.imageMouseOverHandler.bind(this, this.node);
+    this.funcImageMouseOut = this.imageMouseOutHandler.bind(this, this.node);
+    this.funcDocumentScroll = this.documentScrollHandler.bind(this, this.node);
+
     // select shuffle
     switch (this.settings.type) {
       case "imageMouseMove":
-        $on(elementNode, "mousemove", this.imageMouseMoveHandler.bind(this, this.node));
+        $on(elementNode, "mousemove", this.funcImageMouseMove);
         break;
       case "imageHover":
-        $on(elementNode, "mouseover", this.imageMouseOverHandler.bind(this, this.node));
-        $on(elementNode, "mouseout", this.imageMouseOutHandler.bind(this, this.node));
+        $on(elementNode, "mouseover", this.funcImageMouseOver);
+        $on(elementNode, "mouseout", this.funcImageMouseOut);
         break;
       case "documentMouseMove":
-        $on(document, "mousemove", this.imageMouseMoveHandler.bind(this, this.node));
+        $on(document, "mousemove", this.funcImageMouseMove);
         break;
       case "documentScroll":
-        $on(document, "scroll", this.documentScrollHandler.bind(this, this.node));
+        $on(document, "scroll", this.funcDocumentScroll);
         break;
       default:
         break;
@@ -143,21 +154,21 @@ export default class ShuffleImages {
         imgEl.classList.remove("active");
       }
     });
-
+    
     //select type distroy
     switch (this.settings.type) {
       case "imageMouseMove":
-        $off(elementNode, "mousemove", this.imageMouseMoveHandler.bind(this, elementNode));
+        $off(elementNode, "mousemove", this.funcImageMouseMove);
         break;
       case "imageHover":
-        $off(elementNode, "mouseover", this.imageMouseOverHandler.bind(this, elementNode));
-        $off(elementNode, "mouseout", this.imageMouseOutHandler.bind(this, elementNode));
+        $off(elementNode, "mouseover", this.funcImageMouseOver);
+        $off(elementNode, "mouseout", this.funcImageMouseOut);
         break;
       case "documentMouseMove":
-        $off(document, "mousemove", this.imageMouseMoveHandler.bind(this, elementNode));
+        $off(document, "mousemove", this.funcImageMouseMove);
         break;
       case "documentScroll":
-        $off(document, "scroll", this.documentScrollHandler.bind(this, elementNode));
+        $off(document, "scroll", this.funcDocumentScroll);
         break;
       default:
         break;
