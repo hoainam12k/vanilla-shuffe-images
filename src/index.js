@@ -1,4 +1,4 @@
-import { $, $on, $off, displayImage } from "./helper";
+import { $, $on, $off, displayImage, makeid } from "./helper";
 
 export default class ShuffleImages {
   /**
@@ -45,12 +45,6 @@ export default class ShuffleImages {
       ...this.defaults,
       ...this.options
     };
-
-    this.imageMouseMoveHandler = this.imageMouseMoveHandler.bind(this);
-    this.imageMouseOverHandler = this.imageMouseOverHandler.bind(this);
-    this.imageMouseOverHandler = this.imageMouseOverHandler.bind(this);
-    this.imageMouseOutHandler = this.imageMouseOutHandler.bind(this);
-    this.documentScrollHandler = this.documentScrollHandler.bind(this);
   }
 
   /**
@@ -61,6 +55,7 @@ export default class ShuffleImages {
       this.isInit = false;
       if (this.shuffleImageElements.length > 0) {
         this.shuffleImageElements.forEach(el => {
+          el.id = makeid(8);
           this.shuffleHandler(el);
         });
       }
@@ -116,17 +111,17 @@ export default class ShuffleImages {
     // select shuffle
     switch (this.settings.type) {
       case "imageMouseMove":
-        $on(elementNode, "mousemove", this.imageMouseMoveHandler);
+        $on(elementNode, "mousemove", this.imageMouseMoveHandler.bind(this, this.node));
         break;
       case "imageHover":
-        $on(elementNode, "mouseover", this.imageMouseOverHandler);
-        $on(elementNode, "mouseout", this.imageMouseOutHandler);
+        $on(elementNode, "mouseover", this.imageMouseOverHandler.bind(this, this.node));
+        $on(elementNode, "mouseout", this.imageMouseOutHandler.bind(this, this.node));
         break;
       case "documentMouseMove":
-        $on(document, "mousemove", this.imageMouseMoveHandler);
+        $on(document, "mousemove", this.imageMouseMoveHandler.bind(this, this.node));
         break;
       case "documentScroll":
-        $on(document, "scroll", this.documentScrollHandler);
+        $on(document, "scroll", this.documentScrollHandler.bind(this, this.node));
         break;
       default:
         break;
@@ -152,17 +147,17 @@ export default class ShuffleImages {
     //select type distroy
     switch (this.settings.type) {
       case "imageMouseMove":
-        $off(elementNode, "mousemove", this.imageMouseMoveHandler);
+        $off(elementNode, "mousemove", this.imageMouseMoveHandler.bind(this, elementNode));
         break;
       case "imageHover":
-        $off(elementNode, "mouseover", this.imageMouseOverHandler);
-        $off(elementNode, "mouseout", this.imageMouseOutHandler);
+        $off(elementNode, "mouseover", this.imageMouseOverHandler.bind(this, elementNode));
+        $off(elementNode, "mouseout", this.imageMouseOutHandler.bind(this, elementNode));
         break;
       case "documentMouseMove":
-        $off(document, "mousemove", this.imageMouseMoveHandler);
+        $off(document, "mousemove", this.imageMouseMoveHandler.bind(this, elementNode));
         break;
       case "documentScroll":
-        $off(document, "scroll", this.documentScrollHandler);
+        $off(document, "scroll", this.documentScrollHandler.bind(this, elementNode));
         break;
       default:
         break;
@@ -172,14 +167,29 @@ export default class ShuffleImages {
   /**
    * Shuffle images when moving mouse (with distance)
    */
-  imageMouseMoveHandler() {
-    let active = $(this.node, ".active");
+  imageMouseMoveHandler(node) {
+    let active, firstElement;
+    if (this.settings.type === 'documentMouseMove') {
+      active = $(document, `.${node.className}`, 'NodeList');
+    } else {
+      const oneElement = document.getElementById(node.id);
+      active = $(oneElement, ".active");
+      firstElement = oneElement.firstElementChild;
+    }
     let math = Math.round(
       Math.sqrt(Math.pow(event.clientY, 2) + Math.pow(event.clientX, 2))
     );
 
     if (Math.abs(math - this.distance) > this.settings.mouseMoveTrigger) {
-      displayImage(active, this.node.firstElementChild);
+      if (active.length) {
+        for (let index = 0; index < active.length; index++) {
+          const element = active[index];
+          const activeOneItem = $(element, '.active');
+          displayImage(activeOneItem, element.firstElementChild);
+        }
+      } else {
+        displayImage(active, firstElement);
+      }
       this.distance = math;
     }
   }
