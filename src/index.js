@@ -90,6 +90,7 @@ export default class ShuffleImages {
    */
   shuffleHandler(elementNode) {
     const imgAllElement = $(elementNode,elementNode.firstElementChild.localName,"NodeList");
+    if (!imgAllElement[1]) return;
     this.node = elementNode;
 
     // init images
