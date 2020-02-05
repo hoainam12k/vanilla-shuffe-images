@@ -42,12 +42,12 @@ const displayImage = (activeElement, firstImage) => {
   if (activeElement.nextElementSibling) {
     activeElement.nextElementSibling.style.visibility = "visible";
     activeElement.nextElementSibling.style.opacity = "1";
-    activeElement.nextElementSibling.style.position = "unset";
+    activeElement.nextElementSibling.style.position = "static";
     activeElement.nextElementSibling.classList.add("active");
   } else {
     firstImage.style.visibility = "visible";
     firstImage.style.opacity = "1";
-    firstImage.style.position = "unset";
+    firstImage.style.position = "static";
     firstImage.classList.add("active");
   }
   activeElement.style.visibility = "hidden";
