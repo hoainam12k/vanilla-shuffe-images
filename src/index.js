@@ -21,7 +21,7 @@ export default class ShuffleImages {
     /**
      * @param {number} triggerTime
      */
-    this.triggerTime = null;
+    this.triggerTime = [];
     /**
      * @param {Node} node Node Element
      */
@@ -56,20 +56,19 @@ export default class ShuffleImages {
    * Initial shuffle images
    */
   init() {
-    if (!this.isInit || this.shuffleImageElements.length < 0) return;
-    this.isInit = false;
+    this.isInit = true;
     this.shuffleImageElements.forEach(el => {
+      el.removeAttribute('destroy');
       el.id = makeid(8);
       this.shuffleHandler(el);
     });
   }
-
+  
   /**
    * Destroy shuffle images
    */
   destroy() {
-    if (this.isInit || this.shuffleImageElements.length < 0) return;
-    this.isInit = true;
+    this.isInit = false;
     this.shuffleImageElements.forEach(el => {
       this.destroyShuffleHandler(el);
     });
@@ -118,7 +117,6 @@ export default class ShuffleImages {
       case "imageHover":
         $on(elementNode, "mouseenter", this.funcImageMouseOver);
         $on(elementNode, "mouseleave", this.funcImageMouseOut);
-        // $on(elementNode, "mouseout", () => console.log('hhhhh'));
         break;
       case "documentMouseMove":
         $on(document, "mousemove", this.funcImageMouseMove);
@@ -136,8 +134,8 @@ export default class ShuffleImages {
    * @param {Node} elementNode
    */
   destroyShuffleHandler(elementNode) {
+    elementNode.setAttribute('destroy', '');
     const imgAllElement = $(elementNode, elementNode.firstElementChild.localName, "NodeList");
-
     // destroy init image
     if (elementNode.hasAttribute("style")) elementNode.removeAttribute("style");
     imgAllElement.forEach((imgEl, i) => {
@@ -169,6 +167,7 @@ export default class ShuffleImages {
    * Shuffle images when moving mouse (with distance)
    */
   imageMouseMoveHandler(node) {
+    if (node.hasAttribute('destroy')) return;
     let active, firstElement;
     if (this.settings.type === 'documentMouseMove') {
       active = $(document, `.${node.className}`, 'NodeList');
@@ -199,25 +198,30 @@ export default class ShuffleImages {
    * Shuffle images when hovering
    */
   imageMouseOverHandler(node) {
+    if (node.hasAttribute('destroy')) return;
     const oneElement = document.getElementById(node.id);
-    this.triggerTime = setInterval(() => {
+    const triggerFunc = setInterval(() => {
       const active = $(oneElement, ".active");
       const firstElement = oneElement.firstElementChild;
       displayImage(active, firstElement);
     }, this.settings.hoverTrigger);
+    this.triggerTime.push(triggerFunc);
   }
 
   /**
    * Remove time interval when hover out element
    */
   imageMouseOutHandler() {
-    clearInterval(this.triggerTime);
+    for (const item of this.triggerTime) {  
+      clearInterval(item);
+    }
   }
 
   /**
    * Shuffle images when scrolling
    */
   documentScrollHandler(node) {
+    if (node.hasAttribute('destroy')) return;
     let nodeList = $(document, `.${node.className}`, 'NodeList');
     let math = window.pageYOffset;
     if (Math.abs(math - this.distance) < this.settings.scrollTrigger) return;
