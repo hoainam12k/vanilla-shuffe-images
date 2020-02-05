@@ -2,7 +2,6 @@ import { $, $on, $off, displayImage, makeid } from "./helper";
 
 export default class ShuffleImages {
   /**
-   *
    * @param {Object} options
    */
   constructor(options) {
@@ -22,7 +21,7 @@ export default class ShuffleImages {
     /**
      * @param {number} triggerTime
      */
-    this.triggerTime = null;
+    this.triggerTime = [];
     /**
      * @param {Node} node Node Element
      */
@@ -57,31 +56,22 @@ export default class ShuffleImages {
    * Initial shuffle images
    */
   init() {
-    if (this.isInit) {
-      this.isInit = false;
-      if (this.shuffleImageElements.length > 0) {
-        this.shuffleImageElements.forEach(el => {
-          el.id = makeid(8);
-          this.shuffleHandler(el);
-        });
-      }
-      return;
-    }
+    this.isInit = true;
+    this.shuffleImageElements.forEach(el => {
+      el.removeAttribute('destroy');
+      el.id = makeid(8);
+      this.shuffleHandler(el);
+    });
   }
-
+  
   /**
    * Destroy shuffle images
    */
   destroy() {
-    if (!this.isInit) {
-      this.isInit = true;
-      if (this.shuffleImageElements.length > 0) {
-        this.shuffleImageElements.forEach(el => {
-          this.destroyShuffleHandler(el);
-        });
-      }
-      return;
-    }
+    this.isInit = false;
+    this.shuffleImageElements.forEach(el => {
+      this.destroyShuffleHandler(el);
+    });
   }
 
   /**
@@ -89,7 +79,7 @@ export default class ShuffleImages {
    * @param {Node} elementNode
    */
   shuffleHandler(elementNode) {
-    const imgAllElement = $(elementNode,elementNode.firstElementChild.localName,"NodeList");
+    const imgAllElement = $(elementNode, elementNode.firstElementChild.localName, "NodeList");
     if (!imgAllElement[1]) return;
     this.node = elementNode;
 
@@ -98,7 +88,7 @@ export default class ShuffleImages {
     elementNode.style.position = "relative";
     elementNode.style.minHeight = "1px";
     elementNode.style.overflow = "hidden";
-    imgAllElement.forEach((imgEl, i) => {
+    imgAllElement.forEach(imgEl => {
       imgEl.style.top = "0";
       imgEl.style.right = "0";
       imgEl.style.bottom = "0";
@@ -114,20 +104,19 @@ export default class ShuffleImages {
         imgEl.style.opacity = "0";
       }
     });
-
+    /** Bind function */
     this.funcImageMouseMove = this.imageMouseMoveHandler.bind(this, this.node);
     this.funcImageMouseOver = this.imageMouseOverHandler.bind(this, this.node);
-    this.funcImageMouseOut = this.imageMouseOutHandler.bind(this, this.node);
+    this.funcImageMouseOut = this.imageMouseOutHandler.bind(this);
     this.funcDocumentScroll = this.documentScrollHandler.bind(this, this.node);
-
     // select shuffle
     switch (this.settings.type) {
       case "imageMouseMove":
         $on(elementNode, "mousemove", this.funcImageMouseMove);
         break;
       case "imageHover":
-        $on(elementNode, "mouseover", this.funcImageMouseOver);
-        $on(elementNode, "mouseout", this.funcImageMouseOut);
+        $on(elementNode, "mouseenter", this.funcImageMouseOver);
+        $on(elementNode, "mouseleave", this.funcImageMouseOut);
         break;
       case "documentMouseMove":
         $on(document, "mousemove", this.funcImageMouseMove);
@@ -145,8 +134,8 @@ export default class ShuffleImages {
    * @param {Node} elementNode
    */
   destroyShuffleHandler(elementNode) {
-    const imgAllElement = $(elementNode,elementNode.firstElementChild.localName,"NodeList");
-
+    elementNode.setAttribute('destroy', '');
+    const imgAllElement = $(elementNode, elementNode.firstElementChild.localName, "NodeList");
     // destroy init image
     if (elementNode.hasAttribute("style")) elementNode.removeAttribute("style");
     imgAllElement.forEach((imgEl, i) => {
@@ -155,23 +144,21 @@ export default class ShuffleImages {
         imgEl.classList.remove("active");
       }
     });
-    
+
     //select type distroy
     switch (this.settings.type) {
       case "imageMouseMove":
         $off(elementNode, "mousemove", this.funcImageMouseMove);
         break;
       case "imageHover":
-        $off(elementNode, "mouseover", this.funcImageMouseOver);
-        $off(elementNode, "mouseout", this.funcImageMouseOut);
+        $off(elementNode, "mouseenter", this.funcImageMouseOver);
+        $off(elementNode, "mouseleave", this.funcImageMouseOut);
         break;
       case "documentMouseMove":
         $off(document, "mousemove", this.funcImageMouseMove);
         break;
       case "documentScroll":
         $off(document, "scroll", this.funcDocumentScroll);
-        break;
-      default:
         break;
     }
   }
@@ -180,6 +167,7 @@ export default class ShuffleImages {
    * Shuffle images when moving mouse (with distance)
    */
   imageMouseMoveHandler(node) {
+    if (node.hasAttribute('destroy')) return;
     let active, firstElement;
     if (this.settings.type === 'documentMouseMove') {
       active = $(document, `.${node.className}`, 'NodeList');
@@ -209,28 +197,42 @@ export default class ShuffleImages {
   /**
    * Shuffle images when hovering
    */
-  imageMouseOverHandler() {
-    this.triggerTime = setInterval(() => {
-      let active = $(this.node, ".active");
-      displayImage(active, this.node.firstElementChild);
+  imageMouseOverHandler(node) {
+    if (node.hasAttribute('destroy')) return;
+    const oneElement = document.getElementById(node.id);
+    const triggerFunc = setInterval(() => {
+      const active = $(oneElement, ".active");
+      const firstElement = oneElement.firstElementChild;
+      displayImage(active, firstElement);
     }, this.settings.hoverTrigger);
+    this.triggerTime.push(triggerFunc);
   }
 
   /**
    * Remove time interval when hover out element
    */
   imageMouseOutHandler() {
-    clearInterval(this.triggerTime);
+    for (const item of this.triggerTime) {  
+      clearInterval(item);
+    }
   }
 
   /**
    * Shuffle images when scrolling
    */
-  documentScrollHandler() {
+  documentScrollHandler(node) {
+    if (node.hasAttribute('destroy')) return;
+    let nodeList = $(document, `.${node.className}`, 'NodeList');
     let math = window.pageYOffset;
-    let active = $(this.node, ".active");
-
-    if (Math.abs(math - this.distance) > this.settings.scrollTrigger) {
+    if (Math.abs(math - this.distance) < this.settings.scrollTrigger) return;
+    if (nodeList.length > 1) {
+      Array.from(nodeList).forEach(item => {
+        const activeOneItem = $(item, '.active');
+        displayImage(activeOneItem, item.firstElementChild);
+        this.distance = math;
+      })
+    } else {
+      let active = $(this.node, ".active");
       displayImage(active, this.node.firstElementChild);
       this.distance = math;
     }
