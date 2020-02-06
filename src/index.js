@@ -91,8 +91,10 @@ export default class ShuffleImages {
    */
   shuffleHandler(elementNode) {
     const imgAllElement = $(elementNode, elementNode.firstElementChild.localName, "NodeList");
+    const { wrapperTarget } = this.settings;
     if (!imgAllElement[1]) return;
     this.node = elementNode;
+    const self = this;
 
     // init images
     imgAllElement[0].classList.add('active');
@@ -120,7 +122,17 @@ export default class ShuffleImages {
     this.funcImageMouseOver = this.imageMouseOverHandler.bind(this, this.node);
     this.funcImageMouseOut = this.imageMouseOutHandler.bind(this);
     this.funcDocumentScroll = this.documentScrollHandler.bind(this, this.node);
-    // select shuffle
+    if (wrapperTarget) {
+      const wrapperDOM = $(document, wrapperTarget, "NodeList");      
+      for (const item of wrapperDOM) {
+        self.addEventTrigger(item);
+      }
+    }
+    self.addEventTrigger(elementNode);
+  }
+
+  /** Select shuffle */
+  addEventTrigger(elementNode) {
     switch (this.settings.type) {
       case "imageMouseMove":
         $on(elementNode, "mousemove", this.funcImageMouseMove);
