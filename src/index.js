@@ -56,6 +56,17 @@ export default class ShuffleImages {
    * Initial shuffle images
    */
   init() {
+    const { wrapperTarget } = this.settings;
+    if (wrapperTarget) {
+      try {
+        const wrapperDom = $(document, wrapperTarget, "NodeList");
+        if (wrapperDom.length > 1 || !wrapperDom.length) throw 'Not found wrapper DOM !';
+        const wrapperNodeList = $(wrapperDom[0], this.options.target, "NodeList");
+        this.shuffleImageElements = [...this.shuffleImageElements, ...wrapperNodeList];      
+      } catch (error) {
+        console.log(error);
+      }
+    }
     this.isInit = true;
     this.shuffleImageElements.forEach(el => {
       el.removeAttribute('destroy');
