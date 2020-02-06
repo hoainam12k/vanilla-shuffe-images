@@ -91,13 +91,20 @@ export default class ShuffleImages {
    */
   shuffleHandler(elementNode) {
     const imgAllElement = $(elementNode, elementNode.firstElementChild.localName, "NodeList");
+    const imgActive = $(elementNode, '.active', 'NodeList');
     const { wrapperTarget } = this.settings;
     if (!imgAllElement[1]) return;
     this.node = elementNode;
     const self = this;
 
     // init images
-    imgAllElement[0].classList.add('active');
+    if (!imgActive.length) {
+      imgAllElement[0].classList.add('active');
+    } else if (imgActive.length > 1) {
+      for (let i = 1; i < imgActive.length; i++) {
+        imgActive[i].classList.remove('active');
+      }
+    }
     elementNode.style.position = "relative";
     elementNode.style.minHeight = "1px";
     elementNode.style.overflow = "hidden";
