@@ -43,11 +43,17 @@ shuffle.init();
 
 ## Options
 
-1. type: `imageMouseMove`, `imageHover`, `documentMouseMove`, `documentScroll` 
-// String, default `imageMouseMove`
-2. mouseMoveTrigger:  50 // Interger, default `50`
-3. hoverTrigger:  200 // Interger, default `100`
-4. scrollTrigger:  100 // Interger, default `100`
+- [`String`] Target: query DOM wrapper listImages
+- [`String`] Type: default `imageMouseMove`
+> type: `imageMouseMove`, `imageHover`, `documentMouseMove`, `documentScroll` 
+- Config time
+> mouseMoveTrigger:  50 // Interger, default `50`
+
+> hoverTrigger:  200 // Interger, default `100` 
+
+> scrollTrigger:  100 // Interger, default `100`
+- [`String`] wrapperTarget: query DOM wrapper target
+> Default: `false`
 
 ## For developer
 
